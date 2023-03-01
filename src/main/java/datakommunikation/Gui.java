@@ -22,20 +22,20 @@ public class Gui extends JFrame {
         this.setResizable(false);
 
         JTextField mailFrom = new JTextField("Write here...");
-        mailFrom.setBounds(0, 0, 100, 100);
+        mailFrom.setBounds(0, 100, WIDTH, 40);
 
         JTextField mailTo = new JTextField("Write here...");
-        mailTo.setBounds(0, 0, 100, 100);
+        mailTo.setBounds(0, 150, WIDTH, 40);
 
         message = new JTextField("Write here...");
-        message.setBounds(0, 0, 100, 100);
+        message.setBounds(0, 200, WIDTH, 200);
 
         JLabel label = new JLabel("Insert text here");
-        label.setBounds(100, 100, 100, 100);
+        label.setBounds(WIDTH/2 - 75, 25, 100, 100);
 
         sendButton = new JButton("Send");
         sendButton.setFocusable(false);
-        sendButton.setBounds(100, 200, 80, 25);
+        sendButton.setBounds(WIDTH - 100, HEIGHT - 100, 80, 25);
         sendButton.addActionListener(e -> sendRequest());
 
 
