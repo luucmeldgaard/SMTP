@@ -11,6 +11,8 @@ public class Gui extends JFrame {
     private SMTP smtp;
 
     private JButton sendButton;
+    private JTextField mailFrom;
+    private JTextField mailTo;
     private JTextField message;
 
     public Gui(SMTP smtp) {
@@ -21,10 +23,10 @@ public class Gui extends JFrame {
         this.setTitle("SMTP client");
         this.setResizable(false);
 
-        JTextField mailFrom = new JTextField("Write here...");
+        mailFrom = new JTextField("Write here...");
         mailFrom.setBounds(0, 0, 100, 100);
 
-        JTextField mailTo = new JTextField("Write here...");
+        mailTo = new JTextField("Write here...");
         mailTo.setBounds(0, 0, 100, 100);
 
         message = new JTextField("Write here...");
@@ -50,8 +52,11 @@ public class Gui extends JFrame {
     }
 
     public void sendRequest() {
+
+        smtp.sendCommand("mail from <" + mailFrom.getText() + ">", false);
+        smtp.sendCommand("rcpt to: <" + mailTo.getText() + ">", false);
         sendButton.setEnabled(false);
-        smtp.sendMessage(message.getText());
+        smtp.sendMessage(message.getText(), mailFrom.getText(), mailTo.getText());
         sendButton.setEnabled(true);
     }
 

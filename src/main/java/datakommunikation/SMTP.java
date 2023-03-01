@@ -56,7 +56,7 @@ public class SMTP {
 
     /* Send an SMTP command to the server. Check that the reply code is
        what is is supposed to be according to RFC 821. */
-    private void sendCommand(String msg, boolean showAll) {
+    public void sendCommand(String msg, boolean showAll) {
 
         try {
             if (msg.equals("data")) {
@@ -131,8 +131,12 @@ public class SMTP {
         }
     }
 
-    public void sendMessage(String msg) {
+    public void sendMessage(String msg, String mailFrom, String mailTo) {
         System.out.println("Trying to send: " + msg);
+
+        sendCommand("mail from <" + mailFrom + ">", false);
+        sendCommand("rcpt to: <" + mailTo + ">", false);
+
         try {
             toServer.write("data");
             toServer.newLine();
