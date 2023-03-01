@@ -132,6 +132,7 @@ public class SMTP {
     }
 
     public void sendMessage(String msg) {
+        System.out.println("Trying to send: " + msg);
         try {
             toServer.write("data");
             toServer.newLine();
@@ -146,6 +147,8 @@ public class SMTP {
             toServer.write("." + CRLF);
             toServer.flush();
             Thread.sleep(1000); // Pause for 3 seconds
+            answer = fromServer.readLine();
+            System.out.println(answer);
 
 
         } catch (IOException e) {
@@ -158,7 +161,7 @@ public class SMTP {
 
     public static void main(String[] args) throws IOException {
         SMTP smtp = new SMTP(null);
-        Gui gui = new Gui();
+        Gui gui = new Gui(smtp);
         Scanner scan = new Scanner(System.in);
         String promptCommand;
         while (true) {
