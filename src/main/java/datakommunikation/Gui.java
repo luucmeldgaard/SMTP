@@ -8,6 +8,10 @@ public class Gui extends JFrame {
 
     private int WIDTH = 400;
     private int HEIGHT = 600;
+
+    private int BOXHEIGHT = 60;
+
+    private int BOXWIDTH = (int) (WIDTH*0.8);
     private SMTP smtp;
 
     private JButton sendButton;
@@ -21,21 +25,21 @@ public class Gui extends JFrame {
         this.setTitle("SMTP client");
         this.setResizable(false);
 
-        JTextField mailFrom = new JTextField("Write here...");
-        mailFrom.setBounds(0, 0, 100, 100);
+        JTextField mailFrom = new JTextField("Write here... mailfrom");
+        mailFrom.setBounds((WIDTH-BOXWIDTH)/2,(12+BOXHEIGHT)*1, BOXWIDTH, BOXHEIGHT);
 
-        JTextField mailTo = new JTextField("Write here...");
-        mailTo.setBounds(0, 0, 100, 100);
+        JTextField mailTo = new JTextField("Write here... mailto");
+        mailTo.setBounds((WIDTH-BOXWIDTH)/2,(12+BOXHEIGHT)*2, BOXWIDTH, BOXHEIGHT);
 
-        message = new JTextField("Write here...");
-        message.setBounds(0, 0, 100, 100);
+        message = new JTextField("Write here... jtextfield");
+        message.setBounds((WIDTH-BOXWIDTH)/2, (12+BOXHEIGHT)*3, BOXWIDTH, BOXHEIGHT);
 
-        JLabel label = new JLabel("Insert text here");
-        label.setBounds(100, 100, 100, 100);
+        JLabel label = new JLabel("Jeg ved ikke hvad den her gør");
+        label.setBounds((WIDTH-BOXWIDTH)/2, 20, BOXWIDTH, BOXHEIGHT);
 
         sendButton = new JButton("Send");
         sendButton.setFocusable(false);
-        sendButton.setBounds(100, 200, 80, 25);
+        sendButton.setBounds((WIDTH-BOXWIDTH)/2, (20+BOXHEIGHT)*4, BOXWIDTH, BOXHEIGHT);
         sendButton.addActionListener(e -> sendRequest());
 
 
