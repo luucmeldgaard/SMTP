@@ -131,7 +131,30 @@ public class SMTP {
         }
     }
 
+    public void sendMessage(String msg) {
+        try {
+            toServer.write("data");
+            toServer.newLine();
+            toServer.flush();
+            String answer = fromServer.readLine();
+            System.out.println(answer);
 
+            toServer.write(msg);
+            toServer.newLine();
+
+            System.out.println("Trying to send message...");
+            toServer.write("." + CRLF);
+            toServer.flush();
+            Thread.sleep(1000); // Pause for 3 seconds
+
+
+        } catch (IOException e) {
+            System.out.println(e);
+            closeEverything(connection, fromServer, toServer);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public static void main(String[] args) throws IOException {
         SMTP smtp = new SMTP(null);
