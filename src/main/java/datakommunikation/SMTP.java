@@ -54,10 +54,29 @@ public class SMTP {
         }
     }
 
+    public void reconnect() {
+        closeEverything(connection, fromServer, toServer);
+        try {
+            System.out.println("Trying to reconnect...");
+            this.connection = new Socket("datacomm.bhsi.xyz", 2526);
+            this.fromServer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            this.toServer = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
+            toServer.write("helo");
+            toServer.newLine();
+            toServer.flush();
+            String answer = fromServer.readLine();
+            System.out.println(answer);
+
+        } catch (IOException e) {
+            System.out.println(e);
+            closeEverything(connection, fromServer, toServer);
+            System.out.println("Couldn't reconnect. ");
+        }
+    }
+
     /* Send an SMTP command to the server. Check that the reply code is
        what is is supposed to be according to RFC 821. */
     public void sendCommand(String msg, boolean showAll) {
-
         try {
             if (msg.equals("data")) {
                 toServer.write("data");
@@ -103,6 +122,9 @@ public class SMTP {
             closeEverything(connection, fromServer, toServer);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
+        } catch (NullPointerException e) {
+            System.out.println(e.getMessage());
+            reconnect();
         }
 
         /* Fill in */
@@ -132,25 +154,28 @@ public class SMTP {
     }
 
     public void sendMessage(String msg, String mailFrom, String mailTo) {
+        reconnect();
         System.out.println("Trying to send: " + msg);
 
-        sendCommand("mail from <" + mailFrom + ">", false);
-        sendCommand("rcpt to: <" + mailTo + ">", false);
+        sendCommand("mail from <" + mailFrom + ">", true);
+        sendCommand("rcpt to: <" + mailTo + ">", true);
 
         try {
+            Thread.sleep(1000); // Pause for 1 seconds
             toServer.write("data");
             toServer.newLine();
             toServer.flush();
+            Thread.sleep(1000); // Pause for 1 seconds
             String answer = fromServer.readLine();
             System.out.println(answer);
-
+            answer = fromServer.readLine();
             toServer.write(msg);
             toServer.newLine();
 
             System.out.println("Trying to send message...");
             toServer.write("." + CRLF);
             toServer.flush();
-            Thread.sleep(1000); // Pause for 3 seconds
+            Thread.sleep(1000); // Pause for 1 seconds
             answer = fromServer.readLine();
             System.out.println(answer);
 
@@ -168,10 +193,10 @@ public class SMTP {
         Gui gui = new Gui(smtp);
         Scanner scan = new Scanner(System.in);
         String promptCommand;
-        while (true) {
+        /*while (true) {
             promptCommand = scan.nextLine();
             smtp.sendCommand(promptCommand, true);
-        }
+        }*/
     }
 
 }
