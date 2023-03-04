@@ -1,12 +1,10 @@
 package datakommunikation;
 
-import javax.net.SocketFactory;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 import java.net.*;
 import java.io.*;
 import java.util.Arrays;
-import java.util.Scanner;
 
 /**
  * Open an SMTP connection to a mailserver and send one mail.
@@ -14,8 +12,11 @@ import java.util.Scanner;
  */
 public class SMTP {
 
+    private static boolean SuccessfulLastSession;
+
     // The socket that we use to connect to the SMTP-server
     private Socket connection;
+    private SSLSocket sslConnection;
 
     // Buffered reader and writer for the connection
     private BufferedReader fromServer;
@@ -24,21 +25,28 @@ public class SMTP {
     private static final int SMTP_PORT = 25;
 
     // Array of positive status codes
-    private static final String[] goodStatusCodes = new String[] {"354", "250", "221", "250", "220"};
+    private static final String[] goodStatusCodes = new String[] {"354", "250", "221", "250", "220", "334", "235"};
 
 
     // Initializes a connection with the SMTP-server
     // and the socket streams
     /* Create an SMTPConnection object. Create the socket and the
        associated streams. Initialize SMTP connection. */
-    public SMTP() {
+    public SMTP(boolean SSL, String... credentials) {
+        SuccessfulLastSession = true;
+        this.sslConnection = null;
         this.connection = null;
         this.fromServer = null;
         this.toServer = null;
 
-        // tests the connection
-        connect();
-        closeEverything(connection, fromServer, toServer);
+        if (SSL) {
+            sslConnect(credentials);
+            closeEverything(sslConnection, fromServer, toServer);
+        }
+        else {
+            connect();
+            closeEverything(connection, fromServer, toServer);
+        }
 
     }
 
@@ -54,34 +62,48 @@ public class SMTP {
 
             System.out.println("Connection established. ");
 
+            /* Read a line from server and check that the reply code is 220.
+               If not, throw an IOException. */
 
+            getStatusCode(false);
+
+            sendCommand("helo localhost", true);
+
+
+            /* SMTP handshake. We need the name of the local machine.
+           Send the appropriate SMTP handshake command. */
+            //String localhost = "helo localhost";
+            //sendCommand(localhost, false);
+
+        } catch (IOException e) {
+            System.out.println(e);
+            SuccessfulLastSession = false;
+            closeEverything(connection,fromServer,toServer);
+        }
+
+    }
+
+    public void sslConnect(String... credentials) {
+
+        try {
             SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
-            SSLSocket sslSocket = (SSLSocket) factory.createSocket("smtp.gmail.com", 465);
-            sslSocket.startHandshake();
+            sslConnection = (SSLSocket) factory.createSocket("smtp.gmail.com", 465);
+            sslConnection.startHandshake();
 
-            this.fromServer = new BufferedReader(new InputStreamReader(sslSocket.getInputStream()));
-            this.toServer = new BufferedWriter(new OutputStreamWriter(sslSocket.getOutputStream()));
+            this.fromServer = new BufferedReader(new InputStreamReader(sslConnection.getInputStream()));
+            this.toServer = new BufferedWriter(new OutputStreamWriter(sslConnection.getOutputStream()));
 
-            toServer.write("helo localhost");
-            toServer.newLine();
-            toServer.flush();
-            System.out.println(fromServer.readLine());
-            System.out.println(fromServer.readLine());
+            sendCommand("helo localhost", true);
+            getStatusCode(false);
+            getStatusCode(true);
+            sendCommand("AUTH LOGIN", true);
+            getStatusCode(true);
+            sendCommand(credentials[0], true);
+            getStatusCode(true);
+            sendCommand(credentials[1], true);
+            getStatusCode(true);
 
-            toServer.write("AUTH LOGIN");
-            toServer.newLine();
-            toServer.flush();
-            System.out.println(fromServer.readLine());
-
-            toServer.write("bHV1Y21lbGRnYWFyZHRlc3RAZ21haWwuY29t");
-            toServer.newLine();
-            toServer.flush();
-            System.out.println(fromServer.readLine());
-
-            toServer.write("ZnJsaW9tZ3RidnJrZnFncg==");
-            toServer.newLine();
-            toServer.flush();
-            System.out.println(fromServer.readLine());
+            /*
 
             toServer.write("mail from: <luucmeldgaardtest@gmail.com>");
             toServer.newLine();
@@ -107,24 +129,12 @@ public class SMTP {
             toServer.flush();
             System.out.println(fromServer.readLine());
 
-            /* Read a line from server and check that the reply code is 220.
-               If not, throw an IOException. */
-
-            getStatusCode(false);
-
-            sendCommand("helo localhost", true);
-
-
-            /* SMTP handshake. We need the name of the local machine.
-           Send the appropriate SMTP handshake command. */
-            //String localhost = "helo localhost";
-            //sendCommand(localhost, false);
-
+             */
         } catch (IOException e) {
             System.out.println(e);
-            closeEverything(connection,fromServer,toServer);
+            SuccessfulLastSession = false;
+            closeEverything(connection, fromServer, toServer);
         }
-
     }
 
     /*  returns the status code
@@ -157,6 +167,7 @@ public class SMTP {
 
         } catch (IOException e) {
             System.out.println(e);
+            SuccessfulLastSession = false;
             closeEverything(connection, fromServer, toServer);
         }
 
@@ -177,6 +188,7 @@ public class SMTP {
 
         } catch (IOException e) {
             System.out.println(e);
+            SuccessfulLastSession = false;
             closeEverything(connection, fromServer, toServer);
         }
 
@@ -192,8 +204,13 @@ public class SMTP {
         /* Fill in */
 
     // sends the mail to the server
-    public void send(Envelope envelope, Message message) {
-        connect();
+    public void send(Envelope envelope, Message message, String... credentials) {
+        if (connection != null) {
+            connect();
+        }
+        if (sslConnection != null) {
+            sslConnect(credentials[0], credentials[1]);
+        }
         sendCommand("mail from: <" + envelope.getMailFrom() + ">", true);
         getStatusCode(true);
         sendCommand("rcpt to: <" + envelope.getMailTo() + ">", true);
@@ -207,7 +224,13 @@ public class SMTP {
         }
         sendCommand(".", true);
         getStatusCode(true);
-        closeEverything(connection, fromServer, toServer);
+
+        if (connection != null) {
+            closeEverything(connection, fromServer, toServer);
+        }
+        if (sslConnection != null) {
+            closeEverything(sslConnection, fromServer, toServer);
+        }
 
     }
 
@@ -231,8 +254,23 @@ public class SMTP {
         }
     }
 
+    public void closeEverything(SSLSocket socket, BufferedReader fromServer, BufferedWriter toServer) {
+        try {
+            fromServer.close();
+            toServer.close();
+            socket.close();
+            System.out.println("successfully closed connection. ");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean getSuccessfulLastSession() {
+        return SuccessfulLastSession;
+    }
+
     public static void main(String[] args) {
-        SMTP smtp = new SMTP();
+        SMTP smtp = new SMTP(true);
     }
 
 }

@@ -1,8 +1,7 @@
 package datakommunikation;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
@@ -23,6 +22,8 @@ public class Gui extends JFrame {
     private JTextField subject;
     private JTextArea message;
     private JLabel label;
+    private JFrame gmailGui;
+    JFrame serverGui;
 
     public Gui(MailClient mailClient) {
 
@@ -113,6 +114,106 @@ public class Gui extends JFrame {
         this.setLayout(null);
         this.setVisible(true);
 
+        this.setEnabled(false);
+
+        serverSelectGui();
+
+    }
+
+    private void serverSelectGui() {
+        serverGui = new JFrame("Choose connection");
+
+        serverGui.setResizable(false);
+        serverGui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JLabel infoText = new JLabel("Choose a connection");
+        infoText.setHorizontalAlignment(SwingConstants.CENTER);
+
+
+
+        JButton dataComm = new JButton("Datacomm");
+        dataComm.setPreferredSize(new Dimension(80, 25));
+        dataComm.setFocusable(false);
+        dataComm.addActionListener(e -> closeSetupWindows());
+
+        JButton googleMail = new JButton("Gmail");
+        googleMail.setPreferredSize(new Dimension(100, 25));
+        googleMail.setFocusable(false);
+        googleMail.addActionListener(e -> gmailSetup());
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 10));
+        buttonPanel.setLayout(new GridLayout(1, 1));
+        buttonPanel.add(dataComm);
+        buttonPanel.add(googleMail);
+
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 10));
+        panel.add(infoText, BorderLayout.NORTH);
+        panel.add(buttonPanel, BorderLayout.CENTER);
+
+        serverGui.add(panel, BorderLayout.CENTER);
+        serverGui.pack();
+        serverGui.setVisible(true);
+
+    }
+
+    private void gmailSetup() {
+
+        gmailGui = new JFrame("Login to Gmail");
+        gmailGui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        gmailGui.setResizable(false);
+
+        JTextField addressField = new JTextField("Address field, ex: example@gmail.com ...");
+        addressField.setPreferredSize(new Dimension(400, 20));
+
+        addressField.addFocusListener(new FocusListener() {
+            public void focusGained(FocusEvent e) {
+                if (addressField.getText().equals("Address field, ex: example@gmail.com ...")) {
+                    addressField.setText("");
+                }
+            }
+            public void focusLost(FocusEvent e) {
+                if (addressField.getText().isEmpty()) {
+                    addressField.setText("Address field, ex: example@gmail.com ...");
+                }
+            }
+        });
+
+        JTextField passwordField = new JTextField("password ...");
+        passwordField.setPreferredSize(new Dimension(400, 20));
+
+        passwordField.addFocusListener(new FocusListener() {
+            public void focusGained(FocusEvent e) {
+                if (passwordField.getText().equals("password ...")) {
+                    passwordField.setText("");
+                }
+            }
+            public void focusLost(FocusEvent e) {
+                if (passwordField.getText().isEmpty()) {
+                    passwordField.setText("password ...");
+                }
+            }
+        });
+
+        JButton login = new JButton("Login");
+        login.setPreferredSize(new Dimension(100, 25));
+        login.setFocusable(false);
+        login.addActionListener(e -> mailClient.login(addressField.getText(), passwordField.getText()));
+
+
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 10));
+        panel.setLayout(new GridLayout(0, 1));
+
+        panel.add(addressField);
+        panel.add(passwordField);
+        panel.add(login);
+
+        gmailGui.add(panel);
+        gmailGui.pack();
+        gmailGui.setVisible(true);
+
     }
 
     private void removeText(String emne) {
@@ -137,4 +238,11 @@ public class Gui extends JFrame {
         return label.getText();
     }
 
+    public void closeSetupWindows() {
+        if (gmailGui != null) {
+            gmailGui.setVisible(false);
+        }
+        serverGui.setVisible(false);
+        this.setEnabled(true);
+    }
 }

@@ -1,6 +1,5 @@
 package datakommunikation;
 
-import java.io.IOException;
 import java.util.regex.*;
 
 public class Envelope {
@@ -11,16 +10,37 @@ public class Envelope {
 
     String validStatus;
 
-    public Envelope(String mailFrom, String mailTo) {
+    private boolean SSL;
+
+    public Envelope(String mailFrom, String mailTo, boolean SSL) {
         this.smtp = null;
         this.mailFrom = mailFrom;
         this.mailTo = mailTo;
         this.validStatus = null;
+        this.SSL = SSL;
     }
 
-    public void sendToSMTPServer(Message message) {
-        smtp = new SMTP();
-        smtp.send(this, message);
+    public void sendEnvelope(Message message, String... credentials) {
+        if (SSL) {
+            smtp = new SMTP(true, credentials);
+            smtp.send(this, message, credentials);
+        }
+        else {
+            smtp = new SMTP(false);
+            smtp.send(this, message);
+        }
+    }
+
+    public boolean checkEnvelope(String encodedUsername, String encodedPassword) {
+
+        SMTP testConnection;
+        if (SSL) {
+            testConnection = new SMTP(true, encodedUsername, encodedPassword);
+        }
+        else {
+            testConnection = new SMTP(false);
+        }
+        return testConnection.getSuccessfulLastSession();
     }
 
 
@@ -68,7 +88,7 @@ public class Envelope {
     }
 
     public static void main(String[] args) {
-        Envelope envelope = new Envelope("example@edu.dk", "anotherexample@dtu.dk");
+        Envelope envelope = new Envelope("example@edu.dk", "anotherexample@dtu.dk", false);
         System.out.println(envelope.isValid());
         System.out.println(envelope.getValidStatus());
     }
