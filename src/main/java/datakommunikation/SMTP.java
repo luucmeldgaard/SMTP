@@ -2,6 +2,7 @@ package datakommunikation;
 
 import java.net.*;
 import java.io.*;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -9,123 +10,121 @@ import java.util.Scanner;
  *
  */
 public class SMTP {
-    /* The socket to the server */
+
+    // The socket that we use to connect to the SMTP-server
     private Socket connection;
 
-    /* Streams for reading and writing the socket */
+    // Buffered reader and writer for the connection
     private BufferedReader fromServer;
     private BufferedWriter toServer;
 
     private static final int SMTP_PORT = 25;
-    private static final String CRLF = "\r\n";
 
-    /* Are we connected? Used in close() to determine what to do. */
-    private boolean isConnected = false;
+    // Array of positive status codes
+    private static final String[] goodStatusCodes = new String[] {"354", "250", "221", "250", "220"};
 
+
+    // Initializes a connection with the SMTP-server
+    // and the socket streams
     /* Create an SMTPConnection object. Create the socket and the
        associated streams. Initialize SMTP connection. */
-    public SMTP(Envelope envelope) throws IOException {
+    public SMTP() {
         this.connection = null;
         this.fromServer = null;
         this.toServer = null;
 
+        // tests the connection
+        connect();
+        closeEverything(connection, fromServer, toServer);
+
+    }
+
+
+    // Establishes a connection
+    private void connect() {
+
         try {
-            this.connection = new Socket("datacomm.bhsi.xyz", 2526);
+            System.out.println("Testing connection... ");
+            this.connection = new Socket("datacomm.bhsi.xyz", SMTP_PORT);
             this.fromServer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             this.toServer = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
 
-	/* Read a line from server and check that the reply code is 220.
-	   If not, throw an IOException. */
-            try {
-                fromServer.readLine();
-            } catch (IOException e) {
-                System.out.println(e);
-            }
+            System.out.println("Connection established. ");
 
-        /* SMTP handshake. We need the name of the local machine.
-	   Send the appropriate SMTP handshake command. */
-            String localhost = "helo";
-            sendCommand(localhost, false);
+            /* Read a line from server and check that the reply code is 220.
+               If not, throw an IOException. */
 
-            isConnected = true;
+            getStatusCode(false);
+
+            sendCommand("helo localhost", true);
+
+
+            /* SMTP handshake. We need the name of the local machine.
+           Send the appropriate SMTP handshake command. */
+            //String localhost = "helo localhost";
+            //sendCommand(localhost, false);
+
         } catch (IOException e) {
             System.out.println(e);
             closeEverything(connection,fromServer,toServer);
         }
+
     }
 
-    public void reconnect() {
-        closeEverything(connection, fromServer, toServer);
-        try {
-            System.out.println("Trying to reconnect...");
-            this.connection = new Socket("datacomm.bhsi.xyz", 2526);
-            this.fromServer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            this.toServer = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
-            toServer.write("helo");
-            toServer.newLine();
-            toServer.flush();
-            String answer = fromServer.readLine();
-            System.out.println(answer);
+    /*  returns the status code
+        and if it is not in the
+        goodStatusCodes array,
+        it will kill the connection */
+    public String getStatusCode(boolean showAll) {
 
-        } catch (IOException e) {
-            System.out.println(e);
-            closeEverything(connection, fromServer, toServer);
-            System.out.println("Couldn't reconnect. ");
-        }
-    }
+        String statusCode = "";
 
-    /* Send an SMTP command to the server. Check that the reply code is
-       what is is supposed to be according to RFC 821. */
-    public void sendCommand(String msg, boolean showAll) {
         try {
-            if (msg.equals("data")) {
-                toServer.write("data");
-                toServer.newLine();
-                toServer.flush();
-                String answer = fromServer.readLine();
-                System.out.println(answer);
-                Scanner scan = new Scanner(System.in);
-                while (true) {
-                    msg = scan.nextLine();
-                    if (msg.equals(".")) {
-                        System.out.println("Trying to send message...");
-                        toServer.write("." + CRLF);
-                        toServer.flush();
-                        Thread.sleep(3000); // Pause for 3 seconds
-                        break;
-                    }
-                    else {
-                        toServer.write(msg);
-                        toServer.newLine();
-                    }
+
+            String serverAnswer = fromServer.readLine();
+            String[] serverAnswerAsArray = serverAnswer.split(" ");
+            statusCode = serverAnswerAsArray[0].trim();
+
+            if (Arrays.asList(goodStatusCodes).contains(statusCode)) {
+                if (showAll) {
+                    System.out.println("Server says: " + serverAnswer);
                 }
-            }
+                else {
+                    System.out.println("Server says: " + statusCode);
+                }
 
+            }
             else {
-                System.out.println("has been run");
-                toServer.write(msg);
-                toServer.newLine();
-                toServer.flush();
-            }
-
-            String answer = fromServer.readLine();
-
-            if (!showAll) {
-                String[] answerCode = answer.split(" ");
-                System.out.println(answerCode[0]);
-            } else {
-                System.out.println(answer);
+                System.out.println("Error: " + statusCode);
+                throw new IOException();
             }
 
         } catch (IOException e) {
             System.out.println(e);
             closeEverything(connection, fromServer, toServer);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (NullPointerException e) {
-            System.out.println(e.getMessage());
-            reconnect();
         }
+
+        return statusCode;
+    }
+
+    // Sends a command to the server
+    public void sendCommand(String msg, boolean flush) {
+
+        try {
+
+            System.out.println(msg);
+            toServer.write(msg);
+            toServer.newLine();
+            if (flush) {
+                toServer.flush();
+            }
+
+        } catch (IOException e) {
+            System.out.println(e);
+            closeEverything(connection, fromServer, toServer);
+        }
+
+    }
 
         /* Fill in */
         /* Write command to server and read reply from server. */
@@ -135,68 +134,45 @@ public class SMTP {
 	/* Check that the server's reply code is the same as the parameter
 	   rc. If not, throw an IOException. */
         /* Fill in */
+
+    // sends the mail to the server
+    public void send(Envelope envelope, Message message) {
+        connect();
+        sendCommand("mail from: <" + envelope.getMailFrom() + ">", true);
+        getStatusCode(true);
+        sendCommand("rcpt to: <" + envelope.getMailTo() + ">", true);
+        getStatusCode(true);
+        sendCommand("DATA", true);
+
+        String lineOfMessage = message.nextLine();
+        while (lineOfMessage != null) {
+            sendCommand(lineOfMessage, false);
+            lineOfMessage = message.nextLine();
+        }
+        sendCommand(".", true);
+        getStatusCode(true);
+        closeEverything(connection, fromServer, toServer);
+
     }
 
-    /**
+    /** closes all the streams and the socket connection.
+     *  Usually used after testing a connection,
+     *  receiving an IOException or to end the
+     *  connection after it has been used.
      *
-     * @param socket
-     * @param fromServer
-     * * @param toServer
+     * @param socket - the client-connection object to the SMTP-server
+     * @param fromServer - the buffered reader
+     * @param toServer - the buffered writer
      */
     public void closeEverything(Socket socket, BufferedReader fromServer, BufferedWriter toServer) {
         try {
-            socket.close();
             fromServer.close();
             toServer.close();
+            socket.close();
+            System.out.println("successfully closed connection. ");
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public void sendMessage(String msg, String mailFrom, String mailTo) {
-        reconnect();
-        System.out.println("Trying to send: " + msg);
-
-        sendCommand("mail from <" + mailFrom + ">", true);
-        sendCommand("rcpt to: <" + mailTo + ">", true);
-
-        try {
-            Thread.sleep(1000); // Pause for 1 seconds
-            toServer.write("data");
-            toServer.newLine();
-            toServer.flush();
-            Thread.sleep(1000); // Pause for 1 seconds
-            String answer = fromServer.readLine();
-            System.out.println(answer);
-            answer = fromServer.readLine();
-            toServer.write(msg);
-            toServer.newLine();
-
-            System.out.println("Trying to send message...");
-            toServer.write("." + CRLF);
-            toServer.flush();
-            Thread.sleep(1000); // Pause for 1 seconds
-            answer = fromServer.readLine();
-            System.out.println(answer);
-
-
-        } catch (IOException e) {
-            System.out.println(e);
-            closeEverything(connection, fromServer, toServer);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static void main(String[] args) throws IOException {
-        SMTP smtp = new SMTP(null);
-        Gui gui = new Gui(smtp);
-        Scanner scan = new Scanner(System.in);
-        String promptCommand;
-        /*while (true) {
-            promptCommand = scan.nextLine();
-            smtp.sendCommand(promptCommand, true);
-        }*/
     }
 
 }

@@ -4,14 +4,39 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="74d6b2f3-caca-456c-84b4-2d7d7833bb6e" name="Changes" comment="" />
+    <list default="true" id="74d6b2f3-caca-456c-84b4-2d7d7833bb6e" name="Changes" comment="det viiiirker">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/datakommunikation/MailClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/datakommunikation/Message.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/datakommunikation/Envelope.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/datakommunikation/Envelope.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/datakommunikation/Gui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/datakommunikation/Gui.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/datakommunikation/SMTP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/datakommunikation/SMTP.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/datakommunikation/restofCodeActuallyWorking" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/datakommunikation/restofCodeActuallyWorking" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="e6695eef84850743801264962d5b749a42c69093" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2MQ0NDV78VgVqULAJ0nHFlnlnhg" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -23,9 +48,100 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="datakommunikation" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.MailClient">
+    <configuration name="Base64Converter" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="datakommunikation.Base64Converter" />
+      <module name="SMTP" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="datakommunikation.MailClient" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Envelope" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="datakommunikation.Envelope" />
+      <module name="SMTP" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="datakommunikation.MailClient" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Gmail" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="19" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="datakommunikation.Gmail" />
+      <module name="SMTP" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="datakommunikation.MailClient" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MailClient" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="datakommunikation.MailClient" />
+      <module name="SMTP" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="datakommunikation.MailClient" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SMTP" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="datakommunikation.SMTP" />
+      <module name="SMTP" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="datakommunikation.MailClient" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.Envelope" />
+      <item itemvalue="Application.MailClient" />
+      <item itemvalue="Application.SMTPconnection" />
+      <item itemvalue="Application.Base64Converter" />
+      <item itemvalue="Application.Gmail" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.MailClient" />
+        <item itemvalue="Application.Envelope" />
+        <item itemvalue="Application.SMTPconnection" />
+        <item itemvalue="Application.Gmail" />
+        <item itemvalue="Application.Base64Converter" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -34,7 +150,51 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1677684457806</updated>
+      <workItem from="1677688044279" duration="8707000" />
+      <workItem from="1677780866851" duration="17490000" />
+      <workItem from="1677869567267" duration="16643000" />
     </task>
+    <task id="LOCAL-00001" summary="miodfied sendmessage to work with gui fully">
+      <created>1677687821651</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1677687821651</updated>
+    </task>
+    <task id="LOCAL-00002" summary="det viiiirker">
+      <created>1677688173012</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1677688173012</updated>
+    </task>
+    <task id="LOCAL-00003" summary="det viiiirker">
+      <created>1677695070678</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1677695070678</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="miodfied sendmessage to work with gui fully" />
+    <MESSAGE value="det viiiirker" />
+    <option name="LAST_COMMIT_MESSAGE" value="det viiiirker" />
   </component>
 </project>

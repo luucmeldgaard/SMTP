@@ -6,12 +6,12 @@ import java.io.IOException;
 public class restOfCode {
 }
 
-    /* Send the message. Write the correct SMTP-commands in the
+    /* Send the envelope. Write the correct SMTP-commands in the
        correct order. No checking for errors, just throw them to the
        caller. */
-    public void send(Envelope envelope) throws IOException {
+    public void send(Envelope message) throws IOException {
         /* Fill in */
-	/* Send all the necessary commands to send a message. Call
+	/* Send all the necessary commands to send a envelope. Call
 	   sendCommand() to do the dirty work. Do _not_ catch the
 	   exception thrown from sendCommand(). */
         /* Fill in */
