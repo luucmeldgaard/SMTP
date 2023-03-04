@@ -96,7 +96,7 @@ public class Gui extends JFrame {
             }
         });
 
-        label = new JLabel("Jeg ved ikke hvad den her gør");
+        label = new JLabel("Måske");
         label.setBounds((WIDTH-BOXWIDTH)/2, 20, BOXWIDTH, BOXHEIGHT);
 
         sendButton = new JButton("Send");

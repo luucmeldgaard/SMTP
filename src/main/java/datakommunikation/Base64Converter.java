@@ -21,3 +21,6 @@ public class Base64Converter {
     }
 
 }
+
+// til google server: luucmeldgaardtest@gmail.com:  bHV1Y21lbGRnYWFyZHRlc3RAZ21haWwuY29t
+// til google server: frliomgtbvrkfqgr, base64:     ZnJsaW9tZ3RidnJrZnFncg==

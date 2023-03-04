@@ -1,5 +1,8 @@
 package datakommunikation;
 
+import javax.net.SocketFactory;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
 import java.net.*;
 import java.io.*;
 import java.util.Arrays;
@@ -50,6 +53,59 @@ public class SMTP {
             this.toServer = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
 
             System.out.println("Connection established. ");
+
+
+            SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+            SSLSocket sslSocket = (SSLSocket) factory.createSocket("smtp.gmail.com", 465);
+            sslSocket.startHandshake();
+
+            this.fromServer = new BufferedReader(new InputStreamReader(sslSocket.getInputStream()));
+            this.toServer = new BufferedWriter(new OutputStreamWriter(sslSocket.getOutputStream()));
+
+            toServer.write("helo localhost");
+            toServer.newLine();
+            toServer.flush();
+            System.out.println(fromServer.readLine());
+            System.out.println(fromServer.readLine());
+
+            toServer.write("AUTH LOGIN");
+            toServer.newLine();
+            toServer.flush();
+            System.out.println(fromServer.readLine());
+
+            toServer.write("bHV1Y21lbGRnYWFyZHRlc3RAZ21haWwuY29t");
+            toServer.newLine();
+            toServer.flush();
+            System.out.println(fromServer.readLine());
+
+            toServer.write("ZnJsaW9tZ3RidnJrZnFncg==");
+            toServer.newLine();
+            toServer.flush();
+            System.out.println(fromServer.readLine());
+
+            toServer.write("mail from: <luucmeldgaardtest@gmail.com>");
+            toServer.newLine();
+            toServer.flush();
+            System.out.println(fromServer.readLine());
+
+            toServer.write("rcpt to: <luucmeldgaardtest@gmail.com>");
+            toServer.newLine();
+            toServer.flush();
+            System.out.println(fromServer.readLine());
+
+            toServer.write("DATA");
+            toServer.newLine();
+            toServer.flush();
+            System.out.println(fromServer.readLine());
+
+            toServer.write("det her kan umuligt virke");
+            toServer.newLine();
+            toServer.flush();
+
+            toServer.write(".");
+            toServer.newLine();
+            toServer.flush();
+            System.out.println(fromServer.readLine());
 
             /* Read a line from server and check that the reply code is 220.
                If not, throw an IOException. */
@@ -173,6 +229,10 @@ public class SMTP {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void main(String[] args) {
+        SMTP smtp = new SMTP();
     }
 
 }
