@@ -4,11 +4,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.io.File;
 
 public class Gui extends JFrame {
 
     private int WIDTH = 400;
-    private int HEIGHT = 650;
+    private int HEIGHT = 700;
 
     private int BOXHEIGHT = 30;
 
@@ -16,7 +17,10 @@ public class Gui extends JFrame {
 
     private MailClient mailClient;
 
+    private static File includedFile;
+
     private JButton sendButton;
+    private JButton selectAttatchmentButton;
     private JTextField mailFrom;
     private JTextField mailTo;
     private JTextField subject;
@@ -101,18 +105,24 @@ public class Gui extends JFrame {
         label = new JLabel("Måske");
         label.setBounds((WIDTH-BOXWIDTH)/2, 20, BOXWIDTH, BOXHEIGHT);
 
-        hansi = new JCheckBox("hansi");
+        hansi = new JCheckBox("auto hansi");
         hansi.setBounds((WIDTH-BOXWIDTH)/2, (20+BOXHEIGHT)*10, BOXWIDTH, BOXHEIGHT);
 
         sendButton = new JButton("Send");
         sendButton.setFocusable(false);
-        sendButton.setBounds((WIDTH-BOXWIDTH)/2, (20+BOXHEIGHT)*11, BOXWIDTH, BOXHEIGHT);
+        sendButton.setBounds((WIDTH-BOXWIDTH)/2, (20+BOXHEIGHT)*12, BOXWIDTH, BOXHEIGHT);
         sendButton.addActionListener(e -> sendRequest());
+
+        selectAttatchmentButton = new JButton("Vælg billede af Hansi (kun Hansi plz)");
+        selectAttatchmentButton.setFocusable(false);
+        selectAttatchmentButton.setBounds((WIDTH-BOXWIDTH)/2, (20+BOXHEIGHT)*11, BOXWIDTH, BOXHEIGHT);
+        selectAttatchmentButton.addActionListener(e -> openFileExplorer());
 
 
 
         this.add(label);
         this.add(sendButton);
+        this.add(selectAttatchmentButton);
         this.add(mailFrom);
         this.add(mailTo);
         this.add(message);
@@ -125,6 +135,17 @@ public class Gui extends JFrame {
 
         serverSelectGui();
 
+    }
+
+    static void openFileExplorer(){
+        FileDialog fd = new FileDialog(new JFrame());
+        fd.setDirectory(".\\hansi");
+        fd.setVisible(true);
+        File[] f = fd.getFiles();
+        if(f.length > 0){
+            System.out.println("File is " + fd.getFiles()[0].getAbsolutePath());
+            includedFile = f[0];
+        }
     }
 
     private void serverSelectGui() {
@@ -231,8 +252,9 @@ public class Gui extends JFrame {
 
     public void sendRequest() {
         sendButton.setEnabled(false);
-        boolean withAttachment = hansi.isSelected();
-        mailClient.messageToSend("Subject: " + subject.getText() + "\n" + message.getText(), mailFrom.getText(), mailTo.getText(), withAttachment);
+        //boolean withAttachment = hansi.isSelected();
+        boolean withAttachment = true;
+        mailClient.messageToSend("Subject: " + subject.getText() + "\n" + message.getText(), mailFrom.getText(), mailTo.getText(), withAttachment, includedFile);
         //mailFrom.setText("");
         //mailTo.setText("");
         sendButton.setEnabled(true);

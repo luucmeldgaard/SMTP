@@ -185,7 +185,7 @@ public class SMTP {
         /* Fill in */
 
     // sends the mail to the server
-    public void send(Envelope envelope, Message message, boolean withAttachment, String... credentials) {
+    public void send(Envelope envelope, Message message, File includedFile, boolean withAttachment, String... credentials) {
         if (connection != null) {
             connect();
         }
@@ -203,7 +203,7 @@ public class SMTP {
         sendCommand(lineOfMessage, false);
 
         if (withAttachment) {
-            MimeMessage mimeMessage = new MimeMessage(message);
+            MimeMessage mimeMessage = new MimeMessage(message,includedFile);
 
             lineOfMessage = mimeMessage.nextLine();
             while (lineOfMessage != null) {

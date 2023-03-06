@@ -1,5 +1,6 @@
 package datakommunikation;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -23,7 +24,7 @@ public class MimeMessage {
     String[] fileBase64Line;
     ArrayList<String> mimeLines;
 
-    public MimeMessage(Message message) {
+    public MimeMessage(Message message, File includedFile) {
         this.currentLine = 0;
         this.mimeVersion = "MIME-Version: 1.0";
         this.contentType = "Content-Type: multipart/mixed; boundary=\"boundary_1234567890\"";
@@ -32,13 +33,13 @@ public class MimeMessage {
         this.encoding = "Content-Transfer-Encoding: 8bit";
         this.prepareStatement = new String[]{mimeVersion, contentType, boundary, attachmentType, encoding, ""};
 
-        this.contentType = "Content-Type: image/png; name=\"hansi2.png\"";
+        this.contentType = "Content-Type: image/png; name=" + includedFile.getAbsolutePath();
         this.encodingBase64 = "Content-Transfer-Encoding: base64";
-        this.attachmentDisposition = "Content-Disposition: attachment; filename=\"hansi2.png\"";
+        this.attachmentDisposition = "Content-Disposition: attachment; filename=" + includedFile.getAbsolutePath();
         this.attachmentPart = new String[] {"", boundary, contentType, encodingBase64, attachmentDisposition, ""};
 
         try {
-            byte[] png = Files.readAllBytes(Paths.get("hansi2.png"));
+            byte[] png = Files.readAllBytes(Paths.get(includedFile.getAbsolutePath()));
             String encodedPng = Base64.getEncoder().encodeToString(png);
 
             this.fileBase64Line = encodedPng.split("(?<=\\G.{50})");
