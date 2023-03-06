@@ -4,16 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="74d6b2f3-caca-456c-84b4-2d7d7833bb6e" name="Changes" comment="det viiiirker">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/datakommunikation/MailClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/datakommunikation/Message.java" afterDir="false" />
+    <list default="true" id="74d6b2f3-caca-456c-84b4-2d7d7833bb6e" name="Changes" comment="gmail integration">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hansi2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/datakommunikation/MimeMessage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/datakommunikation/Envelope.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/datakommunikation/Envelope.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/datakommunikation/Gui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/datakommunikation/Gui.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/datakommunikation/MailClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/datakommunikation/MailClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/datakommunikation/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/datakommunikation/Message.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/datakommunikation/SMTP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/datakommunikation/SMTP.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/datakommunikation/restofCodeActuallyWorking" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/datakommunikation/restofCodeActuallyWorking" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,7 +31,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="e6695eef84850743801264962d5b749a42c69093" />
+        <entry key="$PROJECT_DIR$" value="test_gmail" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -49,10 +50,20 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false"
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/LuucM/IdeaProjects/SMTP"
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\LuucM\IdeaProjects\SMTP\src\main\java" />
+      <recent name="C:\Users\LuucM\IdeaProjects\SMTP" />
+      <recent name="C:\Users\LuucM\IdeaProjects\SMTP\src" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\LuucM\IdeaProjects\SMTP" />
+      <recent name="C:\Users\LuucM\IdeaProjects\SMTP\src\main\java\datakommunikation" />
+    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="datakommunikation" />
     </key>
@@ -126,19 +137,19 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.SMTP" />
       <item itemvalue="Application.Envelope" />
       <item itemvalue="Application.MailClient" />
-      <item itemvalue="Application.SMTPconnection" />
       <item itemvalue="Application.Base64Converter" />
       <item itemvalue="Application.Gmail" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.MailClient" />
-        <item itemvalue="Application.Envelope" />
-        <item itemvalue="Application.SMTPconnection" />
         <item itemvalue="Application.Gmail" />
         <item itemvalue="Application.Base64Converter" />
+        <item itemvalue="Application.Envelope" />
+        <item itemvalue="Application.SMTP" />
       </list>
     </recent_temporary>
   </component>
@@ -152,7 +163,9 @@
       <updated>1677684457806</updated>
       <workItem from="1677688044279" duration="8707000" />
       <workItem from="1677780866851" duration="17490000" />
-      <workItem from="1677869567267" duration="16643000" />
+      <workItem from="1677869567267" duration="21807000" />
+      <workItem from="1677940173823" duration="15223000" />
+      <workItem from="1678034413639" duration="17762000" />
     </task>
     <task id="LOCAL-00001" summary="miodfied sendmessage to work with gui fully">
       <created>1677687821651</created>
@@ -175,7 +188,28 @@
       <option name="project" value="LOCAL" />
       <updated>1677695070678</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="yooooo">
+      <created>1677888523198</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1677888523198</updated>
+    </task>
+    <task id="LOCAL-00005" summary="gmail test">
+      <created>1677892697087</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1677892697087</updated>
+    </task>
+    <task id="LOCAL-00006" summary="gmail integration">
+      <created>1677949379916</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1677949379916</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -195,6 +229,9 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="miodfied sendmessage to work with gui fully" />
     <MESSAGE value="det viiiirker" />
-    <option name="LAST_COMMIT_MESSAGE" value="det viiiirker" />
+    <MESSAGE value="yooooo" />
+    <MESSAGE value="gmail test" />
+    <MESSAGE value="gmail integration" />
+    <option name="LAST_COMMIT_MESSAGE" value="gmail integration" />
   </component>
 </project>

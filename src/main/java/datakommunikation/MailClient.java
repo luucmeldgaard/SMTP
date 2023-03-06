@@ -14,7 +14,7 @@ public class MailClient {
         this.SSL = false;
     }
 
-    public void messageToSend(String msg, String mailFrom, String mailTo) {
+    public void messageToSend(String msg, String mailFrom, String mailTo, boolean withAttachment) {
         Envelope envelope = new Envelope(mailFrom, mailTo, SSL);
         if (envelope.isValid()) {
             if (gui.getErrorMessage().length() != 0) {
@@ -22,10 +22,10 @@ public class MailClient {
             }
             Message message = new Message(msg);
             if (SSL) {
-                envelope.sendEnvelope(message, encodedUsername, encodedPassword);
+                envelope.sendEnvelope(message, withAttachment, encodedUsername, encodedPassword);
             }
             else {
-                envelope.sendEnvelope(message);
+                envelope.sendEnvelope(message, withAttachment);
             }
         }
         else {

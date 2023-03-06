@@ -32,4 +32,8 @@ public class Message {
         return line;
     }
 
+    public String[] getCompleteMessage() {
+        return this.completeMessage;
+    }
+
 }

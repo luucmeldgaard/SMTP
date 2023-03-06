@@ -8,7 +8,7 @@ import java.awt.event.FocusListener;
 public class Gui extends JFrame {
 
     private int WIDTH = 400;
-    private int HEIGHT = 600;
+    private int HEIGHT = 650;
 
     private int BOXHEIGHT = 30;
 
@@ -22,6 +22,7 @@ public class Gui extends JFrame {
     private JTextField subject;
     private JTextArea message;
     private JLabel label;
+    JCheckBox hansi;
     private JFrame gmailGui;
     JFrame serverGui;
 
@@ -33,7 +34,7 @@ public class Gui extends JFrame {
         this.setTitle("SMTP client");
         this.setResizable(false);
 
-        mailFrom = new JTextField("Mail fra: ");
+        mailFrom = new JTextField("luucmeldgaardtest@gmail.com");
         mailFrom.setBounds((WIDTH-BOXWIDTH)/2,(12+BOXHEIGHT)*1, BOXWIDTH, BOXHEIGHT);
 
         mailFrom.addFocusListener(new FocusListener() {
@@ -49,7 +50,7 @@ public class Gui extends JFrame {
             }
         });
 
-        mailTo = new JTextField("Mail til: ");
+        mailTo = new JTextField("luucmeldgaard@outlook.com");
         mailTo.setBounds((WIDTH-BOXWIDTH)/2,(12+BOXHEIGHT)*2, BOXWIDTH, BOXHEIGHT);
 
         mailTo.addFocusListener(new FocusListener() {
@@ -100,10 +101,15 @@ public class Gui extends JFrame {
         label = new JLabel("Måske");
         label.setBounds((WIDTH-BOXWIDTH)/2, 20, BOXWIDTH, BOXHEIGHT);
 
+        hansi = new JCheckBox("hansi");
+        hansi.setBounds((WIDTH-BOXWIDTH)/2, (20+BOXHEIGHT)*10, BOXWIDTH, BOXHEIGHT);
+
         sendButton = new JButton("Send");
         sendButton.setFocusable(false);
-        sendButton.setBounds((WIDTH-BOXWIDTH)/2, (20+BOXHEIGHT)*10, BOXWIDTH, BOXHEIGHT);
+        sendButton.setBounds((WIDTH-BOXWIDTH)/2, (20+BOXHEIGHT)*11, BOXWIDTH, BOXHEIGHT);
         sendButton.addActionListener(e -> sendRequest());
+
+
 
         this.add(label);
         this.add(sendButton);
@@ -111,6 +117,7 @@ public class Gui extends JFrame {
         this.add(mailTo);
         this.add(message);
         this.add(subject);
+        this.add(hansi);
         this.setLayout(null);
         this.setVisible(true);
 
@@ -224,7 +231,8 @@ public class Gui extends JFrame {
 
     public void sendRequest() {
         sendButton.setEnabled(false);
-        mailClient.messageToSend("Subject: " + subject.getText() + "\n" + message.getText(), mailFrom.getText(), mailTo.getText());
+        boolean withAttachment = hansi.isSelected();
+        mailClient.messageToSend("Subject: " + subject.getText() + "\n" + message.getText(), mailFrom.getText(), mailTo.getText(), withAttachment);
         //mailFrom.setText("");
         //mailTo.setText("");
         sendButton.setEnabled(true);

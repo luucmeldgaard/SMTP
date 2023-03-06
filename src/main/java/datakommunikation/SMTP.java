@@ -4,7 +4,11 @@ import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 import java.net.*;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Base64;
+import java.util.Scanner;
 
 /**
  * Open an SMTP connection to a mailserver and send one mail.
@@ -83,6 +87,10 @@ public class SMTP {
 
     }
 
+
+    // Initializes an encrypted connection
+    // credentials[0] = address
+    // credentials[1] = password
     public void sslConnect(String... credentials) {
 
         try {
@@ -103,33 +111,6 @@ public class SMTP {
             sendCommand(credentials[1], true);
             getStatusCode(true);
 
-            /*
-
-            toServer.write("mail from: <luucmeldgaardtest@gmail.com>");
-            toServer.newLine();
-            toServer.flush();
-            System.out.println(fromServer.readLine());
-
-            toServer.write("rcpt to: <luucmeldgaardtest@gmail.com>");
-            toServer.newLine();
-            toServer.flush();
-            System.out.println(fromServer.readLine());
-
-            toServer.write("DATA");
-            toServer.newLine();
-            toServer.flush();
-            System.out.println(fromServer.readLine());
-
-            toServer.write("det her kan umuligt virke");
-            toServer.newLine();
-            toServer.flush();
-
-            toServer.write(".");
-            toServer.newLine();
-            toServer.flush();
-            System.out.println(fromServer.readLine());
-
-             */
         } catch (IOException e) {
             System.out.println(e);
             SuccessfulLastSession = false;
@@ -204,7 +185,7 @@ public class SMTP {
         /* Fill in */
 
     // sends the mail to the server
-    public void send(Envelope envelope, Message message, String... credentials) {
+    public void send(Envelope envelope, Message message, boolean withAttachment, String... credentials) {
         if (connection != null) {
             connect();
         }
@@ -218,10 +199,28 @@ public class SMTP {
         sendCommand("DATA", true);
 
         String lineOfMessage = message.nextLine();
-        while (lineOfMessage != null) {
-            sendCommand(lineOfMessage, false);
-            lineOfMessage = message.nextLine();
+
+        sendCommand(lineOfMessage, false);
+
+        if (withAttachment) {
+            MimeMessage mimeMessage = new MimeMessage(message);
+
+            lineOfMessage = mimeMessage.nextLine();
+            while (lineOfMessage != null) {
+                sendCommand(lineOfMessage, false);
+                lineOfMessage = mimeMessage.nextLine();
+            }
         }
+        else {
+            lineOfMessage = message.nextLine();
+            while (lineOfMessage != null) {
+                sendCommand(lineOfMessage, false);
+                lineOfMessage = message.nextLine();
+            }
+        }
+        sendCommand("", false);
+
+
         sendCommand(".", true);
         getStatusCode(true);
 

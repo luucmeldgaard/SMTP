@@ -20,14 +20,14 @@ public class Envelope {
         this.SSL = SSL;
     }
 
-    public void sendEnvelope(Message message, String... credentials) {
+    public void sendEnvelope(Message message, boolean withAttachment, String... credentials) {
         if (SSL) {
             smtp = new SMTP(true, credentials);
-            smtp.send(this, message, credentials);
+            smtp.send(this, message, withAttachment, credentials);
         }
         else {
             smtp = new SMTP(false);
-            smtp.send(this, message);
+            smtp.send(this, message, withAttachment);
         }
     }
 
