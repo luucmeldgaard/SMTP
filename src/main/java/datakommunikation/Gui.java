@@ -252,5 +252,6 @@ public class Gui extends JFrame {
         }
         serverGui.setVisible(false);
         this.setEnabled(true);
+        this.setVisible(true);
     }
 }
