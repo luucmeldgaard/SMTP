@@ -26,7 +26,7 @@ public class Gui extends JFrame {
     private JTextField subject;
     private JTextArea message;
     private JLabel label;
-    JCheckBox hansi;
+    private JCheckBox rickroll;
     private JFrame gmailGui;
     JFrame serverGui;
 
@@ -102,11 +102,11 @@ public class Gui extends JFrame {
             }
         });
 
-        label = new JLabel("Måske");
+        label = new JLabel("SMTP CLIENT");
         label.setBounds((WIDTH-BOXWIDTH)/2, 20, BOXWIDTH, BOXHEIGHT);
 
-        hansi = new JCheckBox("auto hansi");
-        hansi.setBounds((WIDTH-BOXWIDTH)/2, (20+BOXHEIGHT)*10, BOXWIDTH, BOXHEIGHT);
+        rickroll = new JCheckBox("secret attachment");
+        rickroll.setBounds((WIDTH-BOXWIDTH)/2, (20+BOXHEIGHT)*10, BOXWIDTH, BOXHEIGHT);
 
         sendButton = new JButton("Send");
         sendButton.setFocusable(false);
@@ -127,7 +127,7 @@ public class Gui extends JFrame {
         this.add(mailTo);
         this.add(message);
         this.add(subject);
-        this.add(hansi);
+        this.add(rickroll);
         this.setLayout(null);
         this.setVisible(true);
 
@@ -137,15 +137,29 @@ public class Gui extends JFrame {
 
     }
 
-    static void openFileExplorer(){
-        FileDialog fd = new FileDialog(new JFrame());
-        fd.setDirectory(".\\hansi");
-        fd.setVisible(true);
-        File[] f = fd.getFiles();
-        if(f.length > 0){
-            System.out.println("File is " + fd.getFiles()[0].getAbsolutePath());
-            includedFile = f[0];
+    private void openFileExplorer(){
+        if (rickroll.isSelected()) {
+            displayErrorMessage("rickroll is selected");
         }
+        else {
+            FileDialog fd = new FileDialog(new JFrame());
+            fd.setDirectory(".\\hansi");
+            fd.setVisible(true);
+            File[] f = fd.getFiles();
+            try {
+                String filePath = fd.getFiles()[0].getAbsolutePath();
+                if (f.length > 0) {
+                    System.out.println("File is " + filePath);
+                    includedFile = f[0];
+                }
+                int extensionStart = filePath.lastIndexOf(".");
+                String extension = filePath.substring(extensionStart, filePath.length());
+                System.out.println(extension);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println(e + ": no file selected");
+            }
+        }
+        rickroll.setEnabled(false);
     }
 
     private void serverSelectGui() {
@@ -252,8 +266,19 @@ public class Gui extends JFrame {
 
     public void sendRequest() {
         sendButton.setEnabled(false);
-        //boolean withAttachment = hansi.isSelected();
-        boolean withAttachment = true;
+
+        if (rickroll.isSelected()) {
+            includedFile = new File(".\\hansi\\importantFile.mp4");
+        }
+
+        boolean withAttachment;
+        if (includedFile != null) {
+            withAttachment = true;
+        }
+        else {
+            withAttachment = false;
+        }
+
         mailClient.messageToSend("Subject: " + subject.getText() + "\n" + message.getText(), mailFrom.getText(), mailTo.getText(), withAttachment, includedFile);
         //mailFrom.setText("");
         //mailTo.setText("");
@@ -262,6 +287,14 @@ public class Gui extends JFrame {
 
     public void displayErrorMessage(String errorMessage) {
         label.setText(errorMessage);
+        label.setVisible(true);
+
+        Timer timer = new Timer(2500, e -> {
+            label.setText("SMTP CLIENT");
+            label.setVisible(true);
+        });
+        timer.setRepeats(false);
+        timer.start();
     }
 
     public String getErrorMessage() {
