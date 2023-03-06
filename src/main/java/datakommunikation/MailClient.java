@@ -1,5 +1,6 @@
 package datakommunikation;
 
+import java.io.File;
 import java.util.Base64;
 
 public class MailClient {
@@ -14,7 +15,7 @@ public class MailClient {
         this.SSL = false;
     }
 
-    public void messageToSend(String msg, String mailFrom, String mailTo, boolean withAttachment) {
+    public void messageToSend(String msg, String mailFrom, String mailTo, boolean withAttachment, File includedFile) {
         Envelope envelope = new Envelope(mailFrom, mailTo, SSL);
         if (envelope.isValid()) {
             if (gui.getErrorMessage().length() != 0) {
@@ -22,10 +23,10 @@ public class MailClient {
             }
             Message message = new Message(msg);
             if (SSL) {
-                envelope.sendEnvelope(message, withAttachment, encodedUsername, encodedPassword);
+                envelope.sendEnvelope(message, includedFile, withAttachment, encodedUsername, encodedPassword);
             }
             else {
-                envelope.sendEnvelope(message, withAttachment);
+                envelope.sendEnvelope(message,includedFile, withAttachment);
             }
         }
         else {

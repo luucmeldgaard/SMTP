@@ -1,5 +1,6 @@
 package datakommunikation;
 
+import java.io.File;
 import java.util.regex.*;
 
 public class Envelope {
@@ -20,14 +21,14 @@ public class Envelope {
         this.SSL = SSL;
     }
 
-    public void sendEnvelope(Message message, boolean withAttachment, String... credentials) {
+    public void sendEnvelope(Message message, File includedFile, boolean withAttachment, String... credentials) {
         if (SSL) {
             smtp = new SMTP(true, credentials);
-            smtp.send(this, message, withAttachment, credentials);
+            smtp.send(this, message, includedFile, withAttachment, credentials);
         }
         else {
             smtp = new SMTP(false);
-            smtp.send(this, message, withAttachment);
+            smtp.send(this, message, includedFile, withAttachment);
         }
     }
 
