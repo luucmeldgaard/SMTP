@@ -1,0 +1,19 @@
+DOMAIN MODEL
+
+@startuml
+
+class Envelope
+class Gui
+class MailClient
+class Message
+class MimeMessage
+class SMTP
+
+MailClient - Gui
+MailClient -- Envelope
+MailClient -- Message
+Envelope -- SMTP
+SMTP -- MimeMessage
+
+
+@enduml
