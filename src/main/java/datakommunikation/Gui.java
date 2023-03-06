@@ -9,7 +9,7 @@ import java.io.File;
 public class Gui extends JFrame {
 
     private int WIDTH = 400;
-    private int HEIGHT = 650;
+    private int HEIGHT = 700;
 
     private int BOXHEIGHT = 30;
 
@@ -105,17 +105,17 @@ public class Gui extends JFrame {
         label = new JLabel("Måske");
         label.setBounds((WIDTH-BOXWIDTH)/2, 20, BOXWIDTH, BOXHEIGHT);
 
-        hansi = new JCheckBox("hansi");
+        hansi = new JCheckBox("auto hansi");
         hansi.setBounds((WIDTH-BOXWIDTH)/2, (20+BOXHEIGHT)*10, BOXWIDTH, BOXHEIGHT);
 
         sendButton = new JButton("Send");
         sendButton.setFocusable(false);
-        sendButton.setBounds((WIDTH-BOXWIDTH)/2, (20+BOXHEIGHT)*11, BOXWIDTH, BOXHEIGHT);
+        sendButton.setBounds((WIDTH-BOXWIDTH)/2, (20+BOXHEIGHT)*12, BOXWIDTH, BOXHEIGHT);
         sendButton.addActionListener(e -> sendRequest());
 
         selectAttatchmentButton = new JButton("Vælg billede af Hansi (kun Hansi plz)");
         selectAttatchmentButton.setFocusable(false);
-        selectAttatchmentButton.setBounds((WIDTH-BOXWIDTH)/2, (20+BOXHEIGHT)*10, BOXWIDTH, BOXHEIGHT);
+        selectAttatchmentButton.setBounds((WIDTH-BOXWIDTH)/2, (20+BOXHEIGHT)*11, BOXWIDTH, BOXHEIGHT);
         selectAttatchmentButton.addActionListener(e -> openFileExplorer());
 
 
@@ -139,6 +139,7 @@ public class Gui extends JFrame {
 
     static void openFileExplorer(){
         FileDialog fd = new FileDialog(new JFrame());
+        fd.setDirectory(".\\hansi");
         fd.setVisible(true);
         File[] f = fd.getFiles();
         if(f.length > 0){
