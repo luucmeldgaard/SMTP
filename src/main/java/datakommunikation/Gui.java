@@ -113,7 +113,7 @@ public class Gui extends JFrame {
         sendButton.setBounds((WIDTH-BOXWIDTH)/2, (20+BOXHEIGHT)*11, BOXWIDTH, BOXHEIGHT);
         sendButton.addActionListener(e -> sendRequest());
 
-        selectAttatchmentButton = new JButton("Vælg fil");
+        selectAttatchmentButton = new JButton("Vælg billede af Hansi (kun Hansi plz)");
         selectAttatchmentButton.setFocusable(false);
         selectAttatchmentButton.setBounds((WIDTH-BOXWIDTH)/2, (20+BOXHEIGHT)*10, BOXWIDTH, BOXHEIGHT);
         selectAttatchmentButton.addActionListener(e -> openFileExplorer());

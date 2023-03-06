@@ -39,7 +39,7 @@ public class MimeMessage {
         this.attachmentPart = new String[] {"", boundary, contentType, encodingBase64, attachmentDisposition, ""};
 
         try {
-            byte[] png = Files.readAllBytes(Paths.get("hansi2.png"));
+            byte[] png = Files.readAllBytes(Paths.get(includedFile.getAbsolutePath()));
             String encodedPng = Base64.getEncoder().encodeToString(png);
 
             this.fileBase64Line = encodedPng.split("(?<=\\G.{50})");
