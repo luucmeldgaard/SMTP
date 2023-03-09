@@ -1,10 +1,13 @@
 package datakommunikation;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.io.File;
+import javax.sound.sampled.*;
 
 public class Gui extends JFrame {
 
@@ -267,6 +270,8 @@ public class Gui extends JFrame {
     public void sendRequest() {
         sendButton.setEnabled(false);
 
+        playSound("swoosh-sound-effect-By-Tuna.wav");
+
         if (rickroll.isSelected()) {
             includedFile = new File(".\\hansi\\importantFile.mp4");
         }
@@ -308,5 +313,17 @@ public class Gui extends JFrame {
         serverGui.setVisible(false);
         this.setEnabled(true);
         this.setVisible(true);
+    }
+
+    public void playSound(String soundName){
+        try{
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } catch (Exception e){
+            System.out.println("Error");
+            e.printStackTrace();
+        }
     }
 }

@@ -5,16 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="74d6b2f3-caca-456c-84b4-2d7d7833bb6e" name="Changes" comment="gmail integration">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hansi2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/datakommunikation/MimeMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/datakommunikation/Envelope.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/datakommunikation/Envelope.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/swoosh-sound-effect-By-Tuna.wav" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/datakommunikation/Gui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/datakommunikation/Gui.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/datakommunikation/MailClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/datakommunikation/MailClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/datakommunikation/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/datakommunikation/Message.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/datakommunikation/SMTP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/datakommunikation/SMTP.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +43,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/LuucM/IdeaProjects/SMTP"
+    "last_opened_file_path": "C:/Users/MagnusStarkadOttosen/Desktop/Java/SMTP"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -61,6 +53,7 @@
       <recent name="C:\Users\LuucM\IdeaProjects\SMTP\src" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\MagnusStarkadOttosen\Desktop\Java\SMTP" />
       <recent name="C:\Users\LuucM\IdeaProjects\SMTP" />
       <recent name="C:\Users\LuucM\IdeaProjects\SMTP\src\main\java\datakommunikation" />
     </key>
@@ -166,6 +159,7 @@
       <workItem from="1677869567267" duration="21807000" />
       <workItem from="1677940173823" duration="15223000" />
       <workItem from="1678034413639" duration="17762000" />
+      <workItem from="1678293978734" duration="438000" />
     </task>
     <task id="LOCAL-00001" summary="miodfied sendmessage to work with gui fully">
       <created>1677687821651</created>
